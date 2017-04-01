@@ -1,0 +1,209 @@
+{% extends "Plantilla.html" %}
+{% load staticfiles %}
+
+{% block rol%}Jefe(a) de Departamento{% endblock %}
+
+{% block nombre %}{{usuario}}{% endblock %}
+
+{% block centro %}{{centro}}{% endblock %}
+
+{% block lista_roles %}
+  {% for e in roles %}
+      {% ifequal e.rol.rol_id 'P' %} 
+          <a href="/profile">Profesor(a)</a> 
+      {% endifequal %}
+      {% ifequal e.rol.rol_id 'CC' %} 
+          <a href="/profilecc">Coordinador(a)</a> 
+      {% endifequal %}
+      {% ifequal e.rol.rol_id 'JDD' %} 
+          <a href="/profilejdd">Jefe(a) de Departamento</a> 
+      {% endifequal %}
+      {% ifequal e.rol.rol_id 'ADMIN' %} 
+          <a href="/admins">Administrador(a)</a> 
+      {% endifequal %}
+  {% endfor %}
+{% endblock %}
+
+	
+{% block op_barra %}    
+<li> <a href="/profilejdd"><i class="icon-home"> </i> Principal</a> </li>
+<li> <a href="/editarperfil/jdd/{{pk}}"><i class="icon-edit"></i>&nbsp;Editar Perfil</a> </li>
+<li> <a href="/horario/jdd"><i class="icon-calendar"></i>&nbsp;Horario de Solicitudes</a> </li>
+<li class="active">
+<a href="/export"><i class="icon-download-alt"></i>&nbsp;Exportar Planificacion</a>
+</li>
+<li> <a href="/cambiarContrasena/jdd/{{pk}}"><i class="icon-repeat"></i> Cambiar Contraseña</a> </li>      
+{% endblock %}
+	
+
+{% block contenido_vista %}
+<link rel="stylesheet" href="{% static "css/accordion.css" %}" type="text/css" /> 
+        <span style="margin-right:50%;"><h4>Planificaciones Disponibles</h4></span>
+          </br></br>
+            <table class="table table-hover">          
+              <thead>
+                <tr>
+                  <th id="color">
+                    Semestre
+                  </th>
+                  <th id="color">
+                    Creador
+                  </th>
+                  <th id="color">
+                    Acciones
+                  </th>
+                </tr>
+              </thead>
+
+              <tbody>
+                <tr>
+                  <td>
+                    Planificación docente I-2013
+                  </td>
+                  <td>
+                    Nombre Apellido
+                  </td>
+                  <td>
+                    
+                    <a href="https://www.dropbox.com/s/bf74h5bq8skyscu/Programacion%20Docente%20Tentativa%201-2013_v1.0.pdf">
+                    <button id="exportar" type="submit" class="btn btn-mini" style="margin-left:50px">
+                      <i class="icon-download-alt" id="descargar">
+                      </i>                      
+                    </button></a>
+
+                    <button id="editar" type="submit" class="btn btn-mini" style="margin-left:50px"><i class="icon-edit"></i></button>                   
+                  </td>
+                </tr>
+                <tr>
+                  <td>
+                    Planificación docente II-2012
+                  </td>
+                  <td>
+                    Nombre Apellido
+                  </td>
+                  <td>
+                   <a href="https://www.dropbox.com/s/bf74h5bq8skyscu/Programacion%20Docente%20Tentativa%201-2013_v1.0.pdf">
+                      <button id="exportar" type="submit" class="btn btn-mini" style="margin-left:50px">
+                        <i class="icon-download-alt" id="descargar">
+                        </i>                      
+                    </button></a>
+
+                    <button id="editar" type="submit" class="btn btn-mini" style="margin-left:50px"><i class="icon-edit"></i></button>                    
+                  </td>
+                </tr>
+                <tr>
+                  <td>
+                    Planificación docente I-2012
+                  </td>
+                  <td>
+                    Nombre Apellido
+                  </td>
+                  <td>
+                 <a href="https://www.dropbox.com/s/bf74h5bq8skyscu/Programacion%20Docente%20Tentativa%201-2013_v1.0.pdf">
+                    <button id="exportar" type="submit" class="btn btn-mini" style="margin-left:50px">
+                      <i class="icon-download-alt" id="descargar">
+                      </i>                      
+                    </button></a>
+
+                    <button id="editar" type="submit" class="btn btn-mini" style="margin-left:50px"><i class="icon-edit"></i></button>
+
+                    </button>
+                  </td>
+                </tr>
+                <tr>
+                  <td>
+                    Planificación docente II-2011
+                  </td>
+                  <td>
+                    Nombre Apellido
+                  </td>
+                  <td>
+                 <a href="https://www.dropbox.com/s/bf74h5bq8skyscu/Programacion%20Docente%20Tentativa%201-2013_v1.0.pdf">
+                    <button id="exportar" type="submit" class="btn btn-mini" style="margin-left:50px">
+                      <i class="icon-download-alt" id="descargar">
+                      </i>                      
+                    </button></a>
+
+                    <button id="editar" type="submit" class="btn btn-mini" style="margin-left:50px"><i class="icon-edit"></i></button>
+                  </td>
+                </tr>
+                <tr>
+                  <td>
+                    Planificación docente I-2011
+                  </td>
+                  <td>
+                    Nombre Apellido
+                  </td>
+                  <td>
+                 <a href="https://www.dropbox.com/s/bf74h5bq8skyscu/Programacion%20Docente%20Tentativa%201-2013_v1.0.pdf">
+                    <button id="exportar" type="submit" class="btn btn-mini" style="margin-left:50px">
+                      <i class="icon-download-alt" id="descargar">
+                      </i>                      
+                    </button></a>
+
+                    <button id="editar" type="submit" class="btn btn-mini" style="margin-left:50px"><i class="icon-edit"></i></button>
+                  </td>
+                </tr>
+              </tbody>
+            </table>    
+ 
+			
+          <div id="indices" class="pagination pagination-centered">
+              <ul>
+                <li>
+                  <a href="#">
+                    Prev
+                  </a>
+                </li>
+                <li>
+                  <a href="#">
+                    1
+                  </a>
+                </li>
+                <li>
+                  <a href="#">
+                    2
+                  </a>
+                </li>
+                <li>
+                  <a href="#">
+                    3
+                  </a>
+                </li>
+                <li>
+                  <a href="#">
+                    Next
+                  </a>
+                </li>
+              </ul>
+            </div>
+        <!--Modal Opciones-->
+        <div id="MyModal" class="modal hide fade">
+          <div class="modal-header">
+            <button type="button" class="close" data-dismiss="modal" aria-hidden="true">
+              ×
+            </button>
+            <h3>
+              Cerrar sesión
+            </h3>
+          </div>
+          <div class="modal-body">
+            <p>
+              ¿Está seguro que desea salir de la aplicación?
+            </p>
+          </div>
+          <div class="modal-footer">
+            <a button="" class="btn" data-dismiss="modal" aria-hidden="true">
+            Cancelar
+          </a>
+            <a button="" class="btn btn-primary">
+            Salir
+          </a>
+          </div>
+        </div>
+{% endblock %}
+        
+{% block scripts %}
+      <script src="{% static "js/toggle_email_scripts.js" %}"></script>  
+{% endblock %}
+  

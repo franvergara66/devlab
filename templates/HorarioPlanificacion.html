@@ -1,0 +1,346 @@
+{% extends "Plantilla.html" %}
+{% load staticfiles %}
+
+{% block rol%}
+{% if rol == 'jdd' %}
+Jefe(a) de Departamento
+{% endif%}
+{% if rol == 'cc' %}
+Coordinador(a)
+{% endif%}
+{% endblock %}
+
+{% block nombre %}{{usuario}}{% endblock %}
+
+{% block centro %}{{centro}}{% endblock %}
+
+{% block lista_roles %}
+  {% for e in roles %}
+      {% ifequal e.rol.rol_id 'P' %} 
+          <a href="/profile">Profesor(a)</a> 
+      {% endifequal %}
+      {% ifequal e.rol.rol_id 'CC' %} 
+          <a href="/profilecc">Coordinador(a)</a> 
+      {% endifequal %}
+      {% ifequal e.rol.rol_id 'JDD' %} 
+          <a href="/profilejdd">Jefe(a) de Departamento</a> 
+      {% endifequal %}
+      {% ifequal e.rol.rol_id 'ADMIN' %} 
+          <a href="/admins">Administrador(a)</a> 
+      {% endifequal %}
+  {% endfor %}
+{% endblock %}
+
+{% block op_barra %}
+	{% if rol == 'jdd' %}
+	<li> <a href="/profilejdd"><i class="icon-home"> </i> Principal</a> </li>
+	<li> <a href="/editarperfil/jdd/{{pk}}"><i class="icon-edit"></i>&nbsp;Editar Perfil</a> </li>
+	<li class="active"> 
+		<a href="/horario/jdd"><i class="icon-calendar"></i>&nbsp;Horario de Solicitudes</a> 
+	</li>
+	<li> <a href="/export"><i class="icon-download-alt"></i>&nbsp;Exportar Planificacion</a> </li>
+	<li> <a href="/cambiarContrasena/jdd/{{pk}}"><i class=" icon-repeat"></i> Cambiar Contraseña</a> </li>
+	{% endif %}
+
+	{% if rol == 'cc' %}
+	<li> <a href="/profilecc"><i class="icon-home"> </i> Principal</a> </li>
+	<li> <a href="/editarperfil/cc/{{pk}}"><i class="icon-edit"></i>&nbsp;Editar Perfil</a> </li>
+	<li class="active"> 
+		<a href="/horario/cc"><i class="icon-calendar"></i>&nbsp;Horario de Solicitudes</a> </li>
+	<li> 
+	<li><a href="/cambiarContrasena/cc/{{pk}}"><i class=" icon-repeat"></i> Cambiar Contraseña</a></li>
+	{% endif %}
+{% endblock %}
+
+{% block contenido_vista %}
+<link href="{% static "css/horario.css" %}" rel="stylesheet">
+<link href="{% static "css/showLoading.css" %}" rel="stylesheet">
+<link href="{% static "css/nanoscroller.css" %}" rel="stylesheet"> 
+
+
+<div id="schedule">
+
+<div id='saveButton' style='position:fixed; z-index:200;'>
+
+  <button class="btn btn-primary" type="button" data-toggle="modal" href="#confirGuardar">
+    <i class="icon-hdd icon-white"></i>
+    Guardar Cambios
+  </button>
+
+{% if rol == 'cc' %}
+  <button class="btn btn-primary" type="button" data-toggle="modal" href="#confirEnviar">
+    <i class="icon-hdd icon-white"></i>
+    Enviar Propuesta
+  </button> 
+{% endif %}
+
+{% if rol == 'jdd' %}
+  <button class="btn btn-primary" type="button" data-toggle="modal" id="chartButton">
+    <i class="icon-signal icon-white"></i>
+    Propuestas Incompletas
+  </button> 
+  {% endif %}
+</div>
+</br></br></br>
+
+<table class="horario table" id="tablaHorario">
+		<!--<caption> -->
+			<!--<b>Listado de Materias</b> -->
+		<!--</caption> -->
+		<thead>
+			<tr>
+				<th>Horario</th>
+				<th>Lunes</th>
+				<th>Martes</th>
+				<th>Mi&eacute;rcoles</th>
+				<th>Jueves</th>
+				<th>Viernes</th>
+			</tr>
+		</thead>
+		<tbody>
+			{% for hora in listaHorarios %}
+			<tr>
+			  <td>{{ hora }}:00 - {{ hora }}:59</td>
+			  <td id="lunes{{ hora }}"></td>
+			  <td id="martes{{ hora }}"></td>
+			  <td id="miercoles{{ hora }}"></td>
+			  <td id="jueves{{ hora }}"></td>
+			  <td id="viernes{{ hora }}"></td>
+			</tr>
+			{% endfor %}
+		</tbody>
+	</table>
+</div>
+
+<div class="profesoresDiv">
+<h4>Profesores</h4>
+	<div id="about" class="nano">
+		<div class="content" > 
+			<table class="profesores table-hover" id="tablaProfesores">
+				<tbody>
+					<tr>
+						<td>Naruto Uzumaki</td>
+						<td style="width:100px;"> 				
+							<button id="eliminarMateria" type="submit" class="btn btn-mini" style="margin-left:5px;float:right;">
+								<i class="icon-eye-open" id="eliminarMateria"></i>
+							</button>
+							<button id="modificarMateria" type="submit" class="btn btn-mini" style="margin-left:5px;float:right;">
+								<i class="icon-remove" id="modificarMateria"></i>
+							</button>
+							<button id="modificarMateria" type="submit" class="btn btn-mini" style="margin-left:5px;float:right;">
+								<i class="icon-ok" id="modificarMateria"></i>
+							</button>
+						</td>
+					</tr>
+					<tr>
+						<td>Sasuke Uchiha</td>
+						<td style="width:100px;"> 				
+							<button id="eliminarMateria" type="submit" class="btn btn-mini" style="margin-left:5px;float:right;">
+								<i class="icon-eye-open" id="eliminarMateria"></i>
+							</button>
+							<button id="modificarMateria" type="submit" class="btn btn-mini" style="margin-left:5px;float:right;">
+								<i class="icon-remove" id="modificarMateria"></i>
+							</button>
+							<button id="modificarMateria" type="submit" class="btn btn-mini" style="margin-left:5px;float:right;">
+								<i class="icon-ok" id="modificarMateria"></i>
+							</button>
+						</td>
+					</tr>
+				</tbody>
+			</table>
+		</div>
+	</div>
+</div>
+
+<div class="materiasDiv">
+<h4>Materias</h4>
+	<div id="about" class="nano">
+		<div class="content" > 
+			<table class="materias table-hover" id="tablaMaterias">
+				<tbody>
+					<tr>
+						<td>Algoritmos y Programaci&oacute;n</td>
+						<td style="width:30px;"> 				
+							<button id="eliminarMateria" type="submit" class="btn btn-mini" style="margin-left:5px;float:right;">
+								<i class="icon-eye-open" id="eliminarMateria"></i>
+							</button>
+						</td>
+					</tr>
+					<tr>
+						<td>Introducci&oacute;n a la Inform&aacute;tica</td>
+						<td style="width:30px;"> 				
+							<button id="eliminarMateria" type="submit" class="btn btn-mini" style="margin-left:5px;float:right;">
+								<i class="icon-eye-open" id="eliminarMateria"></i>
+							</button>
+						</td>
+					</tr>
+					<tr>
+						<td>Estructura de Datos</td>
+						<td style="width:30px;"> 				
+							<button id="eliminarMateria" type="submit" class="btn btn-mini" style="margin-left:5px;float:right;">
+								<i class="icon-eye-open" id="eliminarMateria"></i>
+							</button>
+						</td>
+					</tr>									
+				</tbody>
+			</table>
+		</div>
+	</div>
+</div>
+
+
+<!--Modal Contactar-->
+<div id="modalContacto" class="modal hide fade">
+          
+          <div class="modal-header">
+            <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+              <h3>Contactar</h3>
+          </div>
+
+          <div class="modal-body">
+
+            <form id="emailForm" method="POST">
+                {% csrf_token %}
+
+                    <div id="sendingemailerrors"></div>
+
+                    <div id="destinatarios" >
+                       <input type="text" id="to" style="width:95%;height:auto;"  placeholder="Para"></input>
+                    </div> 
+                    <hr>
+                    <div id="asunto">
+                      <input type="text" id="matter" style="width:95%;height:auto;" placeholder="Asunto"></input>  
+                    </div>
+                    <hr>
+                    <div id="contenido">
+                        <textarea rows="10" id="content" style="width:95%;height:95%;resize:both;" placeholder="Mensaje"></textarea> 
+                    </div>
+                <button id ="contactSubmitButton"class="pull-right btn btn-success" type="submit">Enviar</button>
+
+                <button class="pull-lefth btn btn-danger" data-dismiss="modal">Cancelar</button>
+            </form>
+
+          </div>
+</div>
+
+<!--Modal Contactar-->
+
+<!--Modal OK--> 
+    <div id="modalOK" class="modal hide fade">
+        <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal" aria-hidden="true">
+          ×
+        </button>
+        <h4>OK</h4>
+        </div>
+
+        <div class="modal-body">
+        <div id="okText"></div>
+        </div>
+
+        <div class="modal-footer">
+        <button class="btn btn-success" data-dismiss="modal">OK</button>
+        </div>
+    </div>
+<!--Modal OK-->  
+
+<!--Modal confirGuardar-->  
+	<div id="confirGuardar" class="modal hide fade">
+        <div class="modal-header">
+            <button type="button" class="close" data-dismiss="modal" aria-hidden="true">
+                ×
+            </button>
+            <h3>
+                Guardar horario propuesto
+            </h3>
+        </div>
+        <div class="modal-body">
+            <p>
+                ¿Está seguro que desea guardar el horario propuesto?
+        </div>
+        <div class="modal-footer">
+
+            <a button="" class="btn" data-dismiss="modal" aria-hidden="true">Cancelar</a>
+
+            <a class="btn btn-primary" data-dismiss="modal" aria-hidden="true" onclick='guardarHorario()' href="">Guardar</a>
+
+        </div>
+    </div>
+<!--Modal confirGuardar-->  
+
+<!--Modal confirEnviar-->  
+	<div id="confirEnviar" class="modal hide fade">
+        <div class="modal-header">
+            <button type="button" class="close" data-dismiss="modal" aria-hidden="true">
+                ×
+            </button>
+            <h3>
+                Enviar horario propuesto
+            </h3>
+        </div>
+        <div class="modal-body">
+            <p>
+                ¿Está seguro que desea enviar el horario propuesto al Jefe de Departamento?
+            </p>
+        </div>
+        <div class="modal-footer">
+
+            <a button="" class="btn" data-dismiss="modal" aria-hidden="true">Cancelar</a>
+
+            <a class="btn btn-primary" data-dismiss="modal" aria-hidden="true" onclick='enviarHorario()' href="">Enviar</a>
+
+        </div>
+    </div>
+<!--Modal confirEliminar--> 
+
+<!--Modal Charts-->
+	<div id="incompleteCharts" class="modal hide fade">
+        <div class="modal-header">
+            <button type="button" class="close" data-dismiss="modal" aria-hidden="true">
+                ×
+            </button>
+            <h3>
+                Profesores Faltantes Por Centro
+            </h3>
+        </div>
+        <div class="modal-body">
+      	 	<div class="pull-left" style="padding-top:10%;">
+        	 	<b>
+            	<table>
+            		<thead>
+            			<tr>
+            				Leyenda:
+            			</tr>
+            		</thead>
+            		<tbody>
+	            		<tr>
+	            			<div style="display:block; border-radius: 4px;background-color: #97E1DF;   color:#FFFFFF; padding: 7px;">Inactivos</div>
+	            		</tr>
+	            		<tr><p>  <p/></tr>
+	            		<tr>
+	            			<div style="display:block;border-radius: 4px;background-color: #79BEF7;   color:#FFFFFF; padding: 7px;">Activos</div>
+	            		</tr>
+	            		<tr><p>  <p/></tr>
+	            		<tr>
+	            			<div style="display:block;border-radius: 4px;background-color: #5460F5;  color:#FFFFFF;padding: 7px;">Pendientes</div>		
+	            		</tr>
+            		</tbody>
+            	</table>
+            	</b>
+            </div>
+        	<center>  
+            	<canvas id="ppxc" width="400" height="400"></canvas>
+            </center>
+        </div>
+    </div>
+<!--Modal Charts-->
+
+{% endblock %}	
+
+{% block script %}   
+	<script src="{% static "js/horario.js" %}"></script>
+	<script src="{% static "js/jquery.showLoading.min.js" %}"></script>
+	<script src="{% static "js/nanoScroller.js" %}"></script>
+    <script src="{% static "js/contact.js" %}"></script> 
+    <script src="{% static "js/Chart.js" %}"></script>
+{% endblock %}

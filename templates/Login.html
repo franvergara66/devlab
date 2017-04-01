@@ -1,0 +1,78 @@
+{% extends "Base.html" %}
+{% load staticfiles %}
+{% block todo_cont %}
+    <div class="container">
+    	<div class="container" id="head">
+    		<img src="{% static "logos/mural.jpg" %}" style="border-radius:15px;">
+    	</div>
+    	<br>
+    	<div class="container-fluid" id="loginbox">
+    		<h3>
+    			Bienvenido
+    		</h3>
+    		<h5>
+    			Sistema Automatizado de Planificación Docente
+    		</h5>
+    		<br>
+
+            <form method="POST">{% csrf_token %} 
+    		<div class="control-group">
+                 {{login_form.as_p}}  
+    		</div>
+
+            <a id="forgot_password_link" href="resetrequest/" style="position:relative;font-size:small;">
+                    <b>¿Olvidaste tu Contraseña?</b></br></br></a> 
+
+    		<button type="submit" class="btn btn-primary" 
+            style="position:relative;">
+    			Entrar
+    		</button>
+    		</form>
+
+            {% if err == 1 %}
+            <div class="alert alert-error">
+                <button type="button" class="close" data-dismiss="alert">&times;</button>
+                <h4>¡Error!</h4>
+                El usuario no existe.
+            </div>
+            {% else %}
+            {% if err == 2 %}
+            <div class="alert alert-error">
+                <button type="button" class="close" data-dismiss="alert">&times;</button>
+                <h4>¡Error!</h4>
+                Contraseña inválida.
+            </div>
+            {% endif %}
+            {% endif %}
+            <br>
+    		<br>
+    	</div>
+{% endblock %}
+
+{% block estilo %}
+    <style>
+
+        body {
+            padding-top: 20px;
+            padding-bottom: 40px;
+        }
+
+        #loginbox{
+            box-shadow: 10px 10px 5px #888888;
+            background-color: rgba(95,192,206,0.5);
+            border-radius:15px;
+        }
+
+        #head{
+            box-shadow: 10px 10px 5px #888888;
+            border-radius:15px;
+
+        }
+
+        #foot{
+            border-bottom:2px solid #4380D3;
+            border-top:2px solid #4380D3;
+        }
+
+    </style>
+{% endblock %}
